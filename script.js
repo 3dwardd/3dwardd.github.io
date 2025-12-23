@@ -1,56 +1,64 @@
-/* Get DOM references once (efficient) */
-const treeWrap = document.getElementById('treeWrap');   // Positioned container for image + sparkles
-const tree = document.getElementById('tree');           // Your Christmas tree image
-const sparkleLayer = document.getElementById('sparkleLayer'); // Overlay layer where sparkles are added
-const message = document.getElementById('message');     // Hidden message to reveal
+const bgImage = document.getElementById('bgImage');
+const sparkleLayer = document.getElementById('sparkleLayer');
+const message = document.getElementById('message');
+const nameInput = document.getElementById('nameInput');
+const startBtn = document.getElementById('startBtn');
 
-/* Unified input handler: works for mouse, touch, and pen */
-tree.addEventListener('pointerdown', (e) => {
-  e.preventDefault();               // Prevent default (helps on mobile)
-  triggerEffects(e);                // Run sparkle + shake + message
+let name = '';
+let messageIndex = 0;
+let started = false;
+
+// Joyful quotes/messages
+const quotes = [
+  "You make this season brighter!",
+  "Wishing you warmth, joy, and love!",
+  "You're the sparkle in my snow!",
+  "Hope your heart glows like Christmas lights!",
+  "You're a gift to everyone around you!",
+  "May your smile shine brighter than the star on top!",
+  "Sending hugs wrapped in holiday magic!",
+  "You're the reason this season feels special!",
+  "Let joy snow all around you!",
+  "You're my favorite Christmas miracle!"
+];
+
+// Start button: capture name and show first message
+startBtn.addEventListener('click', () => {
+  name = nameInput.value.trim();
+  if (name) {
+    message.textContent = `🎄 MERRY CHRISTMAS, ${name.toUpperCase()}!!! 🎄`;
+    message.classList.add('show');
+    started = true;
+  }
 });
 
-/* Main interaction: creates sparkles, shakes the tree, reveals message */
-function triggerEffects(e) {
-  // 1) Reveal message (adds .show class for smooth fade)
+// Tap anywhere on image
+bgImage.addEventListener('pointerdown', (e) => {
+  if (!started) return;
+
+  // Sparkle burst
+  createSparkles(e);
+
+  // Cycle through joyful quotes
+  message.textContent = quotes[messageIndex % quotes.length];
+  messageIndex++;
   message.classList.add('show');
+});
 
-  // 2) Shake the tree briefly (adds .shake then removes)
-  tree.classList.add('shake');
-  setTimeout(() => tree.classList.remove('shake'), 450); // Remove after animation
+// Sparkle burst effect
+function createSparkles(e) {
+  const rect = bgImage.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  // 3) Create a sparkle burst near the tap/click location
-  // Calculate position relative to the tree container
-  const rect = treeWrap.getBoundingClientRect();                 // Container bounds
-  const x = e.clientX - rect.left;                               // X inside container
-  const y = e.clientY - rect.top;                                // Y inside container
-
-  makeSparkleBurst(x, y, 10); // 10 sparkles feels lively but not messy
-}
-
-/* Create multiple sparkles around a point (x, y) */
-function makeSparkleBurst(x, y, count = 8) {
-  for (let i = 0; i < count; i++) {
-    const s = document.createElement('div'); // Create sparkle element
-    s.className = 'sparkle';
-
-    // Randomize spread and size for natural look
-    const angle = Math.random() * Math.PI * 2;          // Random direction in radians
-    const radius = 8 + Math.random() * 22;              // Distance from center (px)
-    const sx = x + Math.cos(angle) * radius;            // Sparkle X position
-    const sy = y + Math.sin(angle) * radius;            // Sparkle Y position
-    const size = 6 + Math.random() * 10;                // Random size (px)
-
-    // Place and size the sparkle
-    s.style.left = `${sx - size / 2}px`;                // Center horizontally
-    s.style.top = `${sy - size / 2}px`;                 // Center vertically
-    s.style.width = `${size}px`;
-    s.style.height = `${size}px`;
-
-    // Add sparkle to overlay
-    sparkleLayer.appendChild(s);
-
-    // Cleanup after animation finishes (800ms in CSS + small buffer)
-    setTimeout(() => s.remove(), 1000);
+  for (let i = 0; i < 10; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    const angle = Math.random() * 2 * Math.PI;
+    const radius = 30 * Math.random();
+    sparkle.style.left = `${x + Math.cos(angle) * radius}px`;
+    sparkle.style.top = `${y + Math.sin(angle) * radius}px`;
+    sparkleLayer.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1000);
   }
 }
