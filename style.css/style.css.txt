@@ -43,11 +43,25 @@ body {
   top: -40px;
 }
 
+.segment {
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 100px solid green;
+  border-radius: 10px;
+}
+.s1 { transform: translateY(0); }
+.s2 { transform: translateY(-20px) scale(0.85); }
+.s3 { transform: translateY(-40px) scale(0.7); }
+
 .trunk {
   width: 40px;
   height: 60px;
   background: #7b4b25;
-  margin: 0 auto;
+  margin: -30px auto 0;
+  border-radius: 8px;
 }
 
 .message {
@@ -74,3 +88,4 @@ body {
     opacity: 0.5;
   }
 }
+
