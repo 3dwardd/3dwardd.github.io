@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Merry Christmas ✨</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" /> <!-- Correct character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Mobile scaling -->
+  <title>Merry Christmas ✨</title> <!-- Tab title -->
+  <link rel="stylesheet" href="style.css" /> <!-- Load styles -->
 </head>
 <body>
-  <!-- Fullscreen image -->
-  <img id="bgImage" src="xmasbg.png" alt="Christmas Background" />
+  <!-- Fullscreen background image (covers entire page) -->
+  <img id="bgImage" src="xmasbg.png" alt="Christmas Background" /> <!-- Single image background -->
 
-  <!-- Sparkle layer -->
-  <div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div>
+  <!-- Layer where sparkles are drawn at tap position -->
+  <div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div> <!-- Sparkles overlay -->
 
-  <!-- Message display -->
-  <div id="message" class="message"></div>
+  <!-- Centered greeting that appears after name is entered -->
+  <h1 id="greeting" class="greeting"></h1> <!-- “MERRY CHRISTMAS, NAME!!!” -->
 
-  <!-- Name input -->
-  <div class="input-box">
-    <input type="text" id="nameInput" placeholder="Enter name..." />
-    <button id="startBtn">Start</button>
+  <!-- Tiny hint shown after start -->
+  <div id="hint" class="hint">Press anywhere ✨</div> <!-- Tap instruction -->
+
+  <!-- Ephemeral messages container (random joyful notes appear below greeting) -->
+  <div id="notes" class="notes"></div> <!-- Holds fading messages -->
+
+  <!-- Centered input line to capture the person's name -->
+  <div id="inputBox" class="input-box">
+    <input type="text" id="nameInput" placeholder="Enter name..." /> <!-- Name field -->
+    <button id="startBtn">Start</button> <!-- Begin and personalize -->
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js"></script> <!-- Interactivity -->
 </body>
 </html>

@@ -1,89 +1,97 @@
-/* --- Reset and layout --- */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  position: relative;
+/* --- Base layout and reset --- */
+html, body { margin: 0; height: 100%; } /* Remove default margins, fill viewport */
+body {
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif; /* Clean readable font */
+  color: #ffd260; /* Gold text color */
+  overflow: hidden; /* Prevent scroll for fullscreen layout */
+  position: relative; /* Anchor absolute children */
+  background: #000; /* Fallback if image fails */
 }
 
-/* --- Fullscreen image --- */
+/* --- Fullscreen image: cover the whole page, keep aspect ratio --- */
 #bgImage {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+  position: absolute; inset: 0; /* Fill viewport bounds */
+  width: 100%; height: 100%; /* Full size */
+  object-fit: cover; /* Cover without distortion */
+  z-index: -1; /* Behind all overlays */
+  filter: saturate(1.05) brightness(0.9); /* Slightly moodier look */
 }
 
-/* --- Sparkles --- */
-.sparkle-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+/* --- Centered greeting text --- */
+.greeting {
+  position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); /* Center-ish */
+  margin: 0;
+  text-align: center;
+  font-size: clamp(2rem, 6vw, 4rem); /* Responsive size */
+  color: #ffd260; /* Gold */
+  text-shadow: 0 0 10px #ffd260, 0 0 24px #ff3153; /* Gold + crimson glow */
+  opacity: 0; transition: opacity 300ms ease; /* Fade in on start */
 }
+.greeting.show { opacity: 1; } /* Shown after start */
+
+/* --- Tiny centered hint (“Press anywhere ✨”) --- */
+.hint {
+  position: absolute; top: 53%; left: 50%; transform: translate(-50%, -50%); /* Under greeting */
+  font-size: clamp(0.9rem, 2.8vw, 1.2rem); /* Responsive */
+  color: #fff; opacity: 0; /* Hidden initially */
+  text-shadow: 0 0 8px #fff; /* Soft glow */
+  transition: opacity 300ms ease; /* Smooth reveal */
+}
+.hint.show { opacity: 0.9; } /* Shown after start */
+
+/* --- Name input line (centered) --- */
+.input-box {
+  position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); /* Centered line */
+  display: flex; gap: 10px; /* Space between input and button */
+  align-items: center;
+  background: rgba(0, 0, 0, 0.35); /* Subtle panel */
+  padding: 12px 14px; border-radius: 12px; /* Rounded panel */
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35); /* Soft shadow */
+}
+#nameInput {
+  padding: 10px 12px; font-size: 1rem; /* Comfortable typing */
+  border-radius: 10px; border: none; outline: none; /* Clean */
+  min-width: 220px; /* Reasonable width */
+}
+#startBtn {
+  padding: 10px 16px; font-size: 1rem; /* Button sizing */
+  background: #ffd260; color: #2b1a0e; /* Gold button */
+  border: none; border-radius: 10px; cursor: pointer; /* Clickable */
+  box-shadow: 0 0 10px #ffd260; /* Glow */
+}
+#startBtn:hover { background: #ff3153; color: #fff; } /* Festive hover */
+
+/* --- Sparkles overlay --- */
+.sparkle-layer { position: absolute; inset: 0; pointer-events: none; } /* Click-through layer */
 .sparkle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, gold 60%, transparent 100%);
-  box-shadow: 0 0 10px gold;
-  animation: sparkleFade 1s ease-out forwards;
+  position: absolute; border-radius: 50%; /* Round points */
+  width: 10px; height: 10px; /* Base size (JS randomizes) */
+  background: radial-gradient(circle, #fff 0%, #ffd260 60%, transparent 100%); /* Glow gradient */
+  box-shadow: 0 0 10px #ffd260; /* Extra shine */
+  animation: sparkleFade 1000ms ease-out forwards; /* Appear then fade */
 }
 @keyframes sparkleFade {
   0% { transform: scale(0.5); opacity: 1; }
   100% { transform: scale(2); opacity: 0; }
 }
 
-/* --- Message --- */
-.message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  color: gold;
-  text-shadow: 0 0 10px gold, 0 0 20px red;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  max-width: 90%;
-  padding: 10px;
+/* --- Ephemeral messages (random joyful notes) --- */
+.notes {
+  position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); /* Center below hint */
+  display: grid; gap: 10px; /* Stacked messages with spacing */
+  width: min(600px, 88vw); /* Responsive container */
+  justify-items: center; text-align: center;
 }
-.message.show {
-  opacity: 1;
+.note {
+  padding: 10px 14px; border-radius: 12px; /* Bubble look */
+  background: rgba(0,0,0,0.45); color: #fff; /* Contrast on image */
+  text-shadow: 0 0 8px #fff; /* Soft glow */
+  font-size: clamp(1rem, 3.4vw, 1.2rem); /* Responsive size */
+  animation: riseAndFade 5000ms ease forwards; /* 5s then vanish */
 }
-
-/* --- Input box --- */
-.input-box {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-}
-#nameInput {
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: none;
-  width: 200px;
-}
-#startBtn {
-  margin-left: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background: gold;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 10px gold;
-}
-#startBtn:hover {
-  background: crimson;
-  color: white;
+@keyframes riseAndFade {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  10% { opacity: 1; transform: translateY(0) scale(1); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-12px) scale(0.98); }
 }
