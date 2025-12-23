@@ -1,31 +1,50 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  text-align: center;
-  margin: 0;
-  padding: 50px;
-}
-
-h1 {
-  color: #2c3e50;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background: #3498db;
+  background: linear-gradient(to bottom, #001f3f, #0074D9);
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive;
+  margin: 0;
+  overflow: hidden;
 }
 
-button:hover {
-  background: #2980b9;
-}
-
-#output {
+.title {
+  font-size: 3em;
+  color: gold;
   margin-top: 20px;
-  font-weight: bold;
-  color: #27ae60;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+}
+
+#tree {
+  width: 250px;
+  margin: 40px auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#tree:hover {
+  transform: scale(1.05);
+}
+
+.message {
+  display: none;
+  font-size: 1.5em;
+  color: red;
+  margin-top: 20px;
+}
+
+/* Sparkle effect */
+.sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: gold;
+  border-radius: 50%;
+  animation: sparkle 1s ease-out forwards;
+}
+
+@keyframes sparkle {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }
