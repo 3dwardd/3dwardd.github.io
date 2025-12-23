@@ -1,50 +1,94 @@
+/* --- Base layout and theme --- */
+:root {
+  --bg-top: #0a1a2f;          /* Dark blue for gradient top */
+  --bg-bottom: #123b66;       /* Lighter blue for gradient bottom */
+  --gold: #ffd260;            /* Gold accent for message/sparkles */
+  --text: #ffffff;            /* Base text color */
+}
+
+* { box-sizing: border-box; } /* Predictable sizing */
+html, body { height: 100%; margin: 0; } /* Reset margins and fill viewport */
+
 body {
-  background: linear-gradient(to bottom, #001f3f, #0074D9);
-  color: white;
-  text-align: center;
-  font-family: 'Comic Sans MS', cursive;
-  margin: 0;
-  overflow: hidden;
+  background: radial-gradient(1200px 600px at 50% -200px, #1b3a68 0%, var(--bg-top) 40%, var(--bg-bottom) 100%); /* Festive night sky */
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; /* Clean, readable font */
+  display: grid; place-items: center; /* Center content vertically and horizontally */
 }
 
+/* --- Header --- */
+.header { text-align: center; padding-top: 24px; }
 .title {
-  font-size: 3em;
-  color: gold;
-  margin-top: 20px;
+  font-size: clamp(2rem, 6vw, 3.6rem); /* Responsive title size */
+  color: var(--gold);                   /* Gold title for holiday feel */
+  margin: 6px 0 2px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5); /* Subtle glow */
 }
+.subtitle { opacity: 0.85; margin: 0 0 16px; }
 
-.subtitle {
-  margin-bottom: 20px;
+/* --- Main content and tree --- */
+.content { width: 100%; display: grid; place-items: center; padding: 16px; }
+.tree-wrap {
+  position: relative;               /* Allows absolute-position sparkles inside */
+  width: min(320px, 70vw);          /* Tree scales for mobile */
+  aspect-ratio: 3 / 4;              /* Reserve area; image controls final size */
 }
-
 #tree {
-  width: 250px;
-  margin: 40px auto;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  width: 100%; height: 100%;        /* Fill the container */
+  object-fit: contain;              /* Preserve aspect ratio */
+  user-select: none;                /* Prevent accidental text/image selection */
+  touch-action: manipulation;       /* Better mobile tap behavior */
+  transition: transform 200ms ease; /* Smooth hover/tap feedback */
 }
-#tree:hover {
-  transform: scale(1.05);
+#tree:hover { transform: scale(1.02); } /* Slight hover scale */
+
+/* --- Shake animation (applied briefly on tap) --- */
+.shake {
+  animation: shake 420ms ease; /* Short playful shake */
+}
+@keyframes shake {
+  0%   { transform: translateX(0) rotate(0deg); }
+  20%  { transform: translateX(-2px) rotate(-0.6deg); }
+  40%  { transform: translateX(2px) rotate(0.6deg); }
+  60%  { transform: translateX(-1.5px) rotate(-0.4deg); }
+  80%  { transform: translateX(1.5px) rotate(0.4deg); }
+  100% { transform: translateX(0) rotate(0deg); }
 }
 
-.message {
-  display: none;
-  font-size: 1.5em;
-  color: red;
-  margin-top: 20px;
+/* --- Sparkles overlay --- */
+.sparkle-layer {
+  position: absolute; inset: 0;      /* Cover the whole tree area */
+  pointer-events: none;              /* Don’t block clicks */
 }
-
-/* Sparkle effect */
 .sparkle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: gold;
-  border-radius: 50%;
-  animation: sparkle 1s ease-out forwards;
+  position: absolute;                /* Placed at tap coordinates */
+  width: 10px; height: 10px;         /* Base sparkle size (JS randomizes) */
+  border-radius: 50%;                /* Round glints */
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0.05) 100%); /* Soft glow */
+  box-shadow: 0 0 12px var(--gold), 0 0 24px var(--gold); /* Goldish shine */
+  animation: popfade 800ms ease-out forwards; /* Burst then fade */
+}
+@keyframes popfade {
+  0%   { transform: scale(0.4); opacity: 1; }
+  60%  { transform: scale(1.6); opacity: 0.95; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 
-@keyframes sparkle {
-  0% { transform: scale(0.5); opacity: 1; }
-  100% { transform: scale(2); opacity: 0; }
+/* --- Message --- */
+.message {
+  margin-top: 14px;
+  font-size: clamp(1rem, 3.5vw, 1.35rem); /* Responsive message */
+  color: var(--gold);
+  opacity: 0; transform: translateY(8px); /* Hidden by default */
+  transition: opacity 280ms ease, transform 280ms ease; /* Smooth reveal */
+}
+.message.show {
+  opacity: 1; transform: translateY(0); /* Reveal on tap */
+}
+
+/* --- Footer --- */
+.footer {
+  position: fixed; bottom: 12px;     /* Keep footer near bottom */
+  width: 100%; text-align: center; 
+  opacity: 0.7; font-size: 0.9rem;
 }

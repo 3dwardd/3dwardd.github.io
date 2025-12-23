@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Merry Christmas ✨</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" /> <!-- Ensures correct character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Mobile-friendly scaling -->
+  <title>Merry Christmas ✨</title> <!-- Page title shown in browser tab -->
+  <link rel="stylesheet" href="style.css" /> <!-- Load styles from style.css -->
 </head>
 <body>
-  <h1 class="title">Merry Christmas</h1>
-  <p class="subtitle">Tap the tree for a surprise 🎄</p>
+  <header class="header"> <!-- Simple header with title and subtitle -->
+    <h1 class="title">Merry Christmas</h1>
+    <p class="subtitle">Tap the tree for a surprise 🎄</p>
+  </header>
 
-  <!-- Christmas tree image -->
-  <img id="tree" src="tree.png" alt="Christmas Tree" />
+  <main class="content"> <!-- Main content area centers the tree -->
+    <div id="treeWrap" class="tree-wrap"> <!-- Positioned container for image + sparkles overlay -->
+      <!-- Use your actual image path. If your image is in /assets, set src="assets/tree.png" -->
+      <img id="tree" src="tree.png" alt="Christmas Tree" /> <!-- The interactive tree image -->
+      <div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div> <!-- Layer to hold sparkles -->
+    </div>
 
-  <!-- Hidden message -->
-  <div id="message" class="message">
-    ✨ You make this season brighter. Merry Christmas! ✨
-  </div>
+    <div id="message" class="message"> <!-- Hidden message revealed on tap -->
+      ✨ You make this season brighter. Merry Christmas! ✨
+    </div>
+  </main>
 
-  <!-- Sparkle container -->
-  <div id="sparkles"></div>
+  <footer class="footer"> <!-- Small footer note -->
+    Made with 🎁 and a little magic
+  </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js"></script> <!-- Load interactions -->
 </body>
 </html>
